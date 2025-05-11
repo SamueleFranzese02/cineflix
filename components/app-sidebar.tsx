@@ -12,11 +12,10 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/components/ui/sidebar";
 import { useFavourites } from "@/contexts/favourites-context";
 import { Label } from "@radix-ui/react-label";
-import { Home, Star, Search } from "lucide-react";
+import { Home, Star, Search, Film } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { FormEvent, useState } from "react";
@@ -37,7 +36,10 @@ export default function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarHeader>
-          <h1 className="text-xl font-bold">CineFlix</h1>
+          <div className="flex items-center gap-2 px-5 py-2 justify-center">
+            <Film className="h-7 w-8" />
+            <h1 className="text-4xl font-bold">CineFlix</h1>
+          </div>
           <form onSubmit={handleSearch}>
             <SidebarGroup className="py-0">
               <SidebarGroupContent className="relative">
@@ -83,7 +85,6 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
   );
 }
