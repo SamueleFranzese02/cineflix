@@ -80,7 +80,7 @@ function RatingStarsComponent({
           );
         })}
       </div>
-      {rating && <span className="ml-2 text-sm font-medium">{rating}</span>}
+      {rating && <span className="ml-2 text-sm font-medium">{rating} / 5</span>}
     </div>
   );
 }
