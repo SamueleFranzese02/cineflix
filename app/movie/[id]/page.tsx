@@ -6,6 +6,8 @@ import { ArrowLeft, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getMovieDetails } from "@/lib/actions";
+import { FavouriteButton } from "@/components/favourite-button";
+import { RatingStars } from "@/components/rating-stars";
 
 interface MovieDetailsPageProps {
   params: {
@@ -15,11 +17,9 @@ interface MovieDetailsPageProps {
 
 export default function MovieDetailsPage({ params }: MovieDetailsPageProps) {
   return (
-    <>
-      <Suspense fallback={<MovieDetailsSkeleton />}>
-        <MovieDetails id={params.id} />
-      </Suspense>
-    </>
+    <Suspense fallback={<MovieDetailsSkeleton />}>
+      <MovieDetails id={params.id} />
+    </Suspense>
   );
 }
 
@@ -40,6 +40,13 @@ async function MovieDetails({ id }: { id: string }) {
     );
   }
 
+  const movieForFavourite = {
+    imdbID: movie.imdbID,
+    Title: movie.Title,
+    Year: movie.Year,
+    Poster: movie.Poster,
+  };
+
   return (
     <div className="max-w-5xl mx-auto">
       <Button asChild variant="outline" className="mb-6">
@@ -55,7 +62,11 @@ async function MovieDetails({ id }: { id: string }) {
             alt={movie.Title}
             fill
             className="object-cover"
+            priority
           />
+          <div className="absolute top-2 right-2">
+            <FavouriteButton movie={movieForFavourite} size="lg" />
+          </div>
         </div>
 
         <div>
@@ -72,6 +83,11 @@ async function MovieDetails({ id }: { id: string }) {
                 <span>{movie.imdbRating}/10</span>
               </div>
             )}
+          </div>
+
+          <div className="mb-6">
+            <h3 className="text-sm font-medium mb-2">Your Rating</h3>
+            <RatingStars movie={movieForFavourite} size="lg" />
           </div>
 
           <div className="space-y-4">

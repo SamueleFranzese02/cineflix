@@ -9,10 +9,12 @@ import {
   SidebarHeader,
   SidebarInput,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { useFavourites } from "@/contexts/favourites-context";
 import { Label } from "@radix-ui/react-label";
 import { Home, Star, Search } from "lucide-react";
 import Link from "next/link";
@@ -21,6 +23,7 @@ import React, { FormEvent, useState } from "react";
 
 export default function AppSidebar() {
   const router = useRouter();
+  const { favourites } = useFavourites();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e: FormEvent) => {
@@ -72,6 +75,9 @@ export default function AppSidebar() {
                     <span>Favourites</span>
                   </Link>
                 </SidebarMenuButton>
+                {favourites.length > 0 && (
+                  <SidebarMenuBadge>{favourites.length}</SidebarMenuBadge>
+                )}
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
