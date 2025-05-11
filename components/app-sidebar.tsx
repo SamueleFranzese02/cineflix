@@ -34,7 +34,7 @@ export default function AppSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/movies">
+                  <Link href="/favourites">
                     <Star />
                     <span>Favourites</span>
                   </Link>
