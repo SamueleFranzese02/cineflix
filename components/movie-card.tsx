@@ -9,7 +9,7 @@ interface MovieCardProps {
 
 export default function MovieCard({ movie }: MovieCardProps) {
   return (
-    <Link href={`/movies/${movie.imdbID}`}>
+    <Link href={`/movie/${movie.imdbID}`}>
       <Card className="py-0 overflow-hidden transition-all hover:shadow-lg relative group gap-0">
         <div className="relative aspect-[2/3] w-full overflow-hidden">
           <Image
