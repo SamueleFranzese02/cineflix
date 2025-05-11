@@ -17,6 +17,10 @@ function MovieCardComponent({ movie }: MovieCardProps) {
   const isFav = isFavourite(movie.imdbID);
   const rating =
     "rating" in movie ? movie.rating : getMovieRating(movie.imdbID);
+  const posterUrl =
+    movie.Poster && movie.Poster !== "N/A"
+      ? movie.Poster
+      : `/placeholder.svg?height=450&width=300&text=${encodeURIComponent(movie.Title)}`;
 
   const handleFavouriteClick = (e: MouseEvent) => {
     e.preventDefault();
@@ -36,7 +40,7 @@ function MovieCardComponent({ movie }: MovieCardProps) {
       >
         <div className="relative aspect-[2/3] w-full overflow-hidden">
           <Image
-            src={movie.Poster}
+            src={posterUrl || "/placeholder.svg"}
             alt={movie.Title}
             fill
             className="object-cover transition-transform group-hover:scale-105"

@@ -40,6 +40,11 @@ async function MovieDetails({ id }: { id: string }) {
     );
   }
 
+  const posterUrl =
+    movie.Poster && movie.Poster !== "N/A"
+      ? movie.Poster
+      : `/placeholder.svg?height=450&width=300&text=${encodeURIComponent(movie.Title)}`;
+
   const movieForFavourite = {
     imdbID: movie.imdbID,
     Title: movie.Title,
@@ -58,7 +63,7 @@ async function MovieDetails({ id }: { id: string }) {
       <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6">
         <div className="relative aspect-[2/3] w-full overflow-hidden rounded-lg shadow-md md:stocky md:top-6 md:self-start">
           <Image
-            src={movie.Poster}
+            src={posterUrl || "/placeholder.svg"}
             alt={movie.Title}
             fill
             className="object-cover"
