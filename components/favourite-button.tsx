@@ -2,7 +2,7 @@
 
 import { useFavourites } from "@/contexts/favourites-context";
 import { MovieSearchResult } from "@/types/movie";
-import { MouseEvent } from "react";
+import { memo, MouseEvent, useCallback } from "react";
 import { Star } from "lucide-react";
 
 interface FavouriteButtonProps {
@@ -10,21 +10,24 @@ interface FavouriteButtonProps {
   size?: "default" | "lg";
 }
 
-export function FavouriteButton({
+function FavouriteButtonComponent({
   movie,
   size = "default",
 }: FavouriteButtonProps) {
   const { isFavourite, addFavourite, removeFavourite } = useFavourites();
   const isFav = isFavourite(movie.imdbID);
 
-  const handleClick = (e: MouseEvent) => {
-    e.preventDefault();
-    if (isFav) {
-      removeFavourite(movie.imdbID);
-    } else {
-      addFavourite(movie);
-    }
-  };
+  const handleClick = useCallback(
+    (e: MouseEvent) => {
+      e.preventDefault();
+      if (isFav) {
+        removeFavourite(movie.imdbID);
+      } else {
+        addFavourite(movie);
+      }
+    },
+    [isFav, removeFavourite, addFavourite, movie],
+  );
 
   const sizeClasses = size === "lg" ? "p-2.5" : "p-1.5";
   const iconSize = size === "lg" ? "h-6 w-6" : "h-5 w-5";
@@ -38,3 +41,13 @@ export function FavouriteButton({
     </button>
   );
 }
+
+export const FavouriteButton = memo(
+  FavouriteButtonComponent,
+  (prevProps, nextProps) => {
+    return (
+      prevProps.movie.imdbID === nextProps.movie.imdbID &&
+      prevProps.size === nextProps.size
+    );
+  },
+);

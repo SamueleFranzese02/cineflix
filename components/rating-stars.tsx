@@ -2,7 +2,7 @@
 
 import { useFavourites } from "@/contexts/favourites-context";
 import { MovieSearchResult } from "@/types/movie";
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { Star } from "lucide-react";
 
 interface RatingStarsProps {
@@ -11,7 +11,7 @@ interface RatingStarsProps {
   onChange?: (rating: number) => void;
 }
 
-export function RatingStars({
+function RatingStarsComponent({
   movie,
   size = "md",
   onChange,
@@ -24,17 +24,28 @@ export function RatingStars({
     setRating(getMovieRating(movie.imdbID));
   }, [movie.imdbID, getMovieRating]);
 
-  const handleRating = (newRating: number) => {
-    const finalRating = rating === newRating ? undefined : newRating;
-    setRating(finalRating);
+  const handleRating = useCallback(
+    (newRating: number) => {
+      const finalRating = rating === newRating ? undefined : newRating;
+      setRating(finalRating);
 
-    if (finalRating) {
-      rateMovie(movie, finalRating);
-      if (onChange) {
-        onChange(finalRating);
+      if (finalRating) {
+        rateMovie(movie, finalRating);
+        if (onChange) {
+          onChange(finalRating);
+        }
       }
-    }
-  };
+    },
+    [rating, rateMovie, movie, onChange],
+  );
+
+  const handleMouseEnter = useCallback((value: number) => {
+    setHoverRating(value);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setHoverRating(undefined);
+  }, []);
 
   const starSize = {
     sm: "h-4 w-4",
@@ -58,8 +69,8 @@ export function RatingStars({
               key={value}
               type="button"
               className="text-yellow-400 focus:outline-nome mr-1"
-              onMouseEnter={() => setHoverRating(value)}
-              onMouseLeave={() => setHoverRating(undefined)}
+              onMouseEnter={() => handleMouseEnter(value)}
+              onMouseLeave={handleMouseLeave}
               onClick={() => handleRating(value)}
             >
               <Star
@@ -73,3 +84,13 @@ export function RatingStars({
     </div>
   );
 }
+
+export const RatingStars = memo(
+  RatingStarsComponent,
+  (prevProps, nextProps) => {
+    return (
+      prevProps.movie.imdbID === nextProps.movie.imdbID &&
+      prevProps.size === nextProps.size
+    );
+  },
+);

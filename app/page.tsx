@@ -1,4 +1,4 @@
-import MovieGrid from "@/components/movie-grid";
+import { MovieGrid } from "@/components/movie-grid";
 
 export default async function Home({
   searchParams,

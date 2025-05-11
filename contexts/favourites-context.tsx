@@ -4,8 +4,10 @@ import { MovieSearchResult, MovieWithRating } from "@/types/movie";
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -40,22 +42,25 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("cineflix-favourites", JSON.stringify(favourites));
   }, [favourites]);
 
-  const addFavourite = (movie: MovieSearchResult) => {
+  const addFavourite = useCallback((movie: MovieSearchResult) => {
     setFavourites((prev) => {
       if (prev.some((m) => m.imdbID === movie.imdbID)) return prev;
       return [...prev, movie];
     });
-  };
+  }, []);
 
-  const removeFavourite = (id: string) => {
+  const removeFavourite = useCallback((id: string) => {
     setFavourites((prev) => prev.filter((movie) => movie.imdbID !== id));
-  };
+  }, []);
 
-  const isFavourite = (id: string) => {
-    return favourites.some((movie) => movie.imdbID === id);
-  };
+  const isFavourite = useCallback(
+    (id: string) => {
+      return favourites.some((movie) => movie.imdbID === id);
+    },
+    [favourites],
+  );
 
-  const rateMovie = (movie: MovieSearchResult, rating: number) => {
+  const rateMovie = useCallback((movie: MovieSearchResult, rating: number) => {
     setFavourites((prev) => {
       const existingIndex = prev.findIndex((m) => m.imdbID === movie.imdbID);
 
@@ -70,24 +75,37 @@ export function FavouritesProvider({ children }: { children: ReactNode }) {
         return [...prev, { ...movie, rating }];
       }
     });
-  };
+  }, []);
 
-  const getMovieRating = (id: string) => {
-    const movie = favourites.find((m) => m.imdbID === id);
-    return movie?.rating;
-  };
+  const getMovieRating = useCallback(
+    (id: string) => {
+      const movie = favourites.find((m) => m.imdbID === id);
+      return movie?.rating;
+    },
+    [favourites],
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      favourites,
+      addFavourite,
+      removeFavourite,
+      isFavourite,
+      rateMovie,
+      getMovieRating,
+    }),
+    [
+      favourites,
+      addFavourite,
+      removeFavourite,
+      isFavourite,
+      rateMovie,
+      getMovieRating,
+    ],
+  );
 
   return (
-    <FavouritesContext.Provider
-      value={{
-        favourites,
-        addFavourite,
-        removeFavourite,
-        isFavourite,
-        rateMovie,
-        getMovieRating,
-      }}
-    >
+    <FavouritesContext.Provider value={contextValue}>
       {children}
     </FavouritesContext.Provider>
   );

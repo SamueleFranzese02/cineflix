@@ -3,14 +3,14 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import type { MovieSearchResult, MovieWithRating } from "@/types/movie";
 import { useFavourites } from "@/contexts/favourites-context";
-import { MouseEvent, useState } from "react";
+import { memo, MouseEvent, useState } from "react";
 import { Star } from "lucide-react";
 
 interface MovieCardProps {
   movie: MovieSearchResult | MovieWithRating;
 }
 
-export default function MovieCard({ movie }: MovieCardProps) {
+function MovieCardComponent({ movie }: MovieCardProps) {
   const { isFavourite, addFavourite, removeFavourite, getMovieRating } =
     useFavourites();
   const [isHovering, setIsHovering] = useState(false);
@@ -64,3 +64,11 @@ export default function MovieCard({ movie }: MovieCardProps) {
     </Link>
   );
 }
+
+export const MovieCard = memo(MovieCardComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.movie.imdbID === nextProps.movie.imdbID &&
+    ("rating" in prevProps.movie ? prevProps.movie.rating : undefined) ===
+      ("rating" in nextProps.movie ? nextProps.movie.rating : undefined)
+  );
+});
