@@ -34,3 +34,7 @@ export interface Movie {
   Production?: string;
   Website?: string;
 }
+
+export interface MovieWithRating extends MovieSearchResult {
+  rating?: number;
+}
