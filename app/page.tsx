@@ -1,4 +1,5 @@
-import { MovieGrid } from "@/components/movie-grid";
+import { MovieGrid, MovieGridSkeleton } from "@/components/movie-grid";
+import { Suspense } from "react";
 
 export default async function Home({
   searchParams,
@@ -7,5 +8,9 @@ export default async function Home({
 }) {
   const params = await searchParams;
   const query = params?.q || "harry potter";
-  return <MovieGrid initialQuery={query} />;
+  return (
+    <Suspense fallback={<MovieGridSkeleton />}>
+      <MovieGrid initialQuery={query} />
+    </Suspense>
+  );
 }
