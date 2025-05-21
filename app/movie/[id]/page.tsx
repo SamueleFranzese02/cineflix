@@ -15,7 +15,9 @@ interface MovieDetailsPageProps {
   };
 }
 
-export default function MovieDetailsPage({ params }: MovieDetailsPageProps) {
+export default async function MovieDetailsPage({
+  params,
+}: MovieDetailsPageProps) {
   return (
     <Suspense fallback={<MovieDetailsSkeleton />}>
       <MovieDetails id={params.id} />
@@ -61,7 +63,7 @@ async function MovieDetails({ id }: { id: string }) {
         </Link>
       </Button>
       <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6">
-        <div className="relative aspect-[2/3] w-full overflow-hidden rounded-lg shadow-md md:stocky md:top-6 md:self-start">
+        <div className="relative aspect-[2/3] w-full overflow-hidden rounded-lg shadow-md md:sticky md:top-6 md:self-start">
           <Image
             src={posterUrl || "/placeholder.svg"}
             alt={movie.Title}

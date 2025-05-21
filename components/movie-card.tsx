@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import type { MovieSearchResult, MovieWithRating } from "@/types/movie";
 import { useFavourites } from "@/contexts/favourites-context";
-import { memo, MouseEvent, useState } from "react";
+import { memo, MouseEvent } from "react";
 import { Star } from "lucide-react";
 
 interface MovieCardProps {
@@ -13,7 +13,6 @@ interface MovieCardProps {
 function MovieCardComponent({ movie }: MovieCardProps) {
   const { isFavourite, addFavourite, removeFavourite, getMovieRating } =
     useFavourites();
-  const [isHovering, setIsHovering] = useState(false);
   const isFav = isFavourite(movie.imdbID);
   const rating =
     "rating" in movie ? movie.rating : getMovieRating(movie.imdbID);
@@ -33,11 +32,7 @@ function MovieCardComponent({ movie }: MovieCardProps) {
 
   return (
     <Link href={`/movie/${movie.imdbID}`}>
-      <Card
-        className="py-0 overflow-hidden transition-all hover:shadow-lg relative group gap-0"
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
+      <Card className="py-0 overflow-hidden transition-all hover:shadow-lg relative group gap-0">
         <div className="relative aspect-[2/3] w-full overflow-hidden">
           <Image
             src={posterUrl || "/placeholder.svg"}
