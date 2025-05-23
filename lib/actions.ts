@@ -6,7 +6,7 @@ export async function searchMovies(query = "harry potter") {
       return { error: "Please enter a search term", movies: [] };
     }
     const response = await fetch(
-      `https://www.omdbapi.com/?apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&s=${query}`,
+      `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&s=${query}`,
     );
 
     if (!response.ok) {
@@ -39,7 +39,7 @@ export async function getMovieDetails(imdbID: string) {
     }
 
     const response = await fetch(
-      `https://www.omdbapi.com/?apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&i=${imdbID}&plot=full`,
+      `https://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=${imdbID}&plot=full`,
     );
 
     if (!response.ok) {
