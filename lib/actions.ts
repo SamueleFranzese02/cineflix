@@ -25,7 +25,9 @@ export async function searchMovies(query = "harry potter") {
       Poster: item.Poster,
     }));
 
-    return { movies, error: null };
+    const uniqueMovies = movies.filter((movie, index, self) => self.findIndex(m => m.imdbID === movie.imdbID) === index);
+
+    return { movies: uniqueMovies, error: null };
   } catch (error) {
     console.error("Error searching movies:", error);
     return { error: "Failed to fetch movies", movies: [] };
