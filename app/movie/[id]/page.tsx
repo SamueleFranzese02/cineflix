@@ -10,17 +10,18 @@ import { FavouriteButton } from "@/components/favourite-button";
 import { RatingStars } from "@/components/rating-stars";
 
 interface MovieDetailsPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function MovieDetailsPage({
   params,
 }: MovieDetailsPageProps) {
+    const { id } = await params;
   return (
     <Suspense fallback={<MovieDetailsSkeleton />}>
-      <MovieDetails id={params.id} />
+      <MovieDetails id={id} />
     </Suspense>
   );
 }
