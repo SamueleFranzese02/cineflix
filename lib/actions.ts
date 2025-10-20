@@ -18,7 +18,7 @@ export async function searchMovies(query = "harry potter") {
       return { error: data.Error || "No movies found", movies: [] };
     }
 
-    const movies: MovieSearchResult[] = data.Search.map((item: any) => ({
+    const movies: MovieSearchResult[] = data.Search.map((item: MovieSearchResult) => ({
       imdbID: item.imdbID,
       Title: item.Title,
       Year: item.Year,

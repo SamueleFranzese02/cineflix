@@ -13,7 +13,7 @@ export default function FavouritesPage() {
       return (
         <div className="flex flex-col items-center justify-center h-64 text-center">
           <p className="text-muted-foreground mb-4">
-            You haven't added any favourites yet
+            You haven&apos;t added any favourites yet
           </p>
           <p className="text-sm text-muted-foreground">
             Click the star icon on any movie to add it to your favourites
