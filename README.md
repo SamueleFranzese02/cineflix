@@ -2,6 +2,10 @@
 
 Cineflix is a web application for searching, exploring, and managing movies. It allows users to search for films, view details, add favorites and rate them.
 
+## 🌐 Live Demo
+
+Check out the live demo: [https://cineflix-beryl.vercel.app](https://cineflix-beryl.vercel.app)
+
 ## Features
 
 - **Movie search**: Search for movies using the OMDB API
@@ -15,6 +19,7 @@ Cineflix is a web application for searching, exploring, and managing movies. It 
 - **Frontend**: Next.js 15, React, TypeScript
 - **Styling**: Tailwind CSS, shadcn/ui
 - **API**: OMDb API
+- **Deployment**: Vercel
 
 ## 🚀 Installation
 
