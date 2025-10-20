@@ -39,7 +39,7 @@ Create `.env.local` file in the root directory with the following variable:
 
 ```
 # OMDB API
-NEXT_PUBLIC_OMDB_API_KEY=your_omdb_api_key
+OMDB_API_KEY=your_omdb_api_key
 ```
 
 ### 4. Run dev server
